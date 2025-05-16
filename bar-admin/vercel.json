@@ -11,6 +11,7 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "API_URL": "https://tamo-casa-eureka.up.railway.app"
   }
 } 
