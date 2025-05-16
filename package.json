@@ -1,0 +1,12 @@
+{
+  "name": "tamo-casa-eureka",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "bar-backend"
+  ],
+  "scripts": {
+    "start": "cd bar-backend && npm start",
+    "install": "cd bar-backend && npm install"
+  }
+} 
