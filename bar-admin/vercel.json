@@ -1,1 +1,13 @@
- 
+{
+  "version": 2,
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "dist/bar-admin",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "angular",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+} 
