@@ -13,5 +13,14 @@
   "env": {
     "NODE_ENV": "production",
     "API_URL": "https://tamo-casa-eureka.up.railway.app"
-  }
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "nodeVersion": "18.x"
+      }
+    }
+  ]
 } 
