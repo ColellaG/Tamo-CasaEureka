@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cd bar-backend && node index.js",
-    "install": "cd bar-backend && npm install --production"
+    "start": "node bar-backend/index.js",
+    "install": "npm install --production --prefix bar-backend"
   }
 } 

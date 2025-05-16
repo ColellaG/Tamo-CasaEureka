@@ -1,12 +1,11 @@
 {
   "name": "bar-backend",
   "version": "1.0.0",
-  "description": "Backend para el sistema de gestión de bar",
+  "description": "Backend para Casa Eureka",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "keywords": ["bar", "menu", "api", "express", "sqlite"],
   "author": "",
@@ -14,10 +13,14 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "sqlite3": "^5.1.7"
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
