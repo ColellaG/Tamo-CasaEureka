@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface Product {
@@ -22,16 +22,22 @@ export interface Product {
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('ProductService inicializado con API URL:', this.apiUrl);
+  }
 
   private handleError(error: HttpErrorResponse) {
     console.error('Error en la petición:', error);
+    console.error('URL de la petición:', error.url);
+    console.error('Estado del error:', error.status);
+    console.error('Mensaje del error:', error.message);
     return throwError(() => error);
   }
 
   getProducts(): Observable<Product[]> {
     console.log('Obteniendo productos de:', this.apiUrl);
     return this.http.get<Product[]>(this.apiUrl).pipe(
+      tap(response => console.log('Respuesta de productos:', response)),
       catchError(this.handleError)
     );
   }

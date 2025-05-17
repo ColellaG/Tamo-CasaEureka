@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface Category {
   id: number;
   name: string;
   description: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Injectable({
@@ -16,16 +18,22 @@ export interface Category {
 export class CategoryService {
   private apiUrl = `${environment.apiUrl}/categories`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    console.log('CategoryService inicializado con API URL:', this.apiUrl);
+  }
 
   private handleError(error: HttpErrorResponse) {
     console.error('Error en la petición:', error);
+    console.error('URL de la petición:', error.url);
+    console.error('Estado del error:', error.status);
+    console.error('Mensaje del error:', error.message);
     return throwError(() => error);
   }
 
   getCategories(): Observable<Category[]> {
     console.log('Obteniendo categorías de:', this.apiUrl);
     return this.http.get<Category[]>(this.apiUrl).pipe(
+      tap(response => console.log('Respuesta de categorías:', response)),
       catchError(this.handleError)
     );
   }
