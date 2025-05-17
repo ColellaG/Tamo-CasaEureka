@@ -16,7 +16,15 @@ import { ModalComponent } from '../shared/modal/modal.component';
         <button class="button is-primary" (click)="openModal()">Nuevo Producto</button>
       </div>
 
-      <div class="table-container">
+      <div *ngIf="isLoading" class="loading">
+        Cargando productos...
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <div *ngIf="!isLoading && !error" class="table-container">
         <table class="table is-fullwidth">
           <thead>
             <tr>
@@ -119,6 +127,19 @@ import { ModalComponent } from '../shared/modal/modal.component';
     .mr-2 {
       margin-right: 0.5rem;
     }
+    .loading {
+      text-align: center;
+      padding: 20px;
+      font-size: 1.2rem;
+      color: #666;
+    }
+    .error-message {
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
   `]
 })
 export class ProductsComponent implements OnInit {
@@ -135,6 +156,8 @@ export class ProductsComponent implements OnInit {
     isAvailable: true
   };
   isEditing = false;
+  isLoading = true;
+  error: string | null = null;
 
   constructor(
     private productService: ProductService,
@@ -147,12 +170,17 @@ export class ProductsComponent implements OnInit {
   }
 
   loadProducts() {
+    this.isLoading = true;
+    this.error = null;
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error al cargar productos:', error);
+        this.error = 'Error al cargar los productos. Por favor, intente nuevamente.';
+        this.isLoading = false;
       }
     });
   }
@@ -164,6 +192,7 @@ export class ProductsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar categorías:', error);
+        this.error = 'Error al cargar las categorías. Por favor, intente nuevamente.';
       }
     });
   }
@@ -207,14 +236,15 @@ export class ProductsComponent implements OnInit {
   }
 
   saveProduct() {
-    if (this.isEditing && this.currentProduct.id) {
-      this.productService.updateProduct(this.currentProduct.id, this.currentProduct).subscribe({
+    if (this.isEditing) {
+      this.productService.updateProduct(this.currentProduct.id!, this.currentProduct).subscribe({
         next: () => {
           this.loadProducts();
           this.closeModal();
         },
         error: (error) => {
           console.error('Error al actualizar producto:', error);
+          this.error = 'Error al actualizar el producto. Por favor, intente nuevamente.';
         }
       });
     } else {
@@ -225,19 +255,21 @@ export class ProductsComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al crear producto:', error);
+          this.error = 'Error al crear el producto. Por favor, intente nuevamente.';
         }
       });
     }
   }
 
   deleteProduct(id: number) {
-    if (confirm('¿Está seguro de eliminar este producto?')) {
+    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
           this.loadProducts();
         },
         error: (error) => {
           console.error('Error al eliminar producto:', error);
+          this.error = 'Error al eliminar el producto. Por favor, intente nuevamente.';
         }
       });
     }
