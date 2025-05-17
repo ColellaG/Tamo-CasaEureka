@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -16,6 +16,10 @@ import { CommonModule } from '@angular/common';
         </div>
       </nav>
       <main class="content">
+        <div class="notification is-info">
+          <p>Angular está funcionando correctamente</p>
+          <p>Ruta actual: {{currentRoute}}</p>
+        </div>
         <router-outlet></router-outlet>
       </main>
     </div>
@@ -62,6 +66,12 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'bar-admin';
+  currentRoute = '';
+
+  ngOnInit() {
+    console.log('AppComponent inicializado');
+    this.currentRoute = window.location.pathname;
+  }
 } 
