@@ -6,29 +6,12 @@
   "framework": "angular",
   "routes": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.html",
-      "status": 200
+      "dest": "/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production",
     "API_URL": "https://tamo-casa-eureka.up.railway.app"
-  },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": {
-        "nodeVersion": "22.x"
-      }
-    }
-  ]
+  }
 } 
